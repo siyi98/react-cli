@@ -30,19 +30,30 @@ module.exports = {
         // use:指需要什么样的loader去编译文件,这里由于源文件是.css所以选择css-loader
         use: [
           'style-loader',
+          'css-loader',
+          'postcss-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              javascriptEnabled: true,
+              modifyVars: theme
+            }
+          }
+        ]
+      },
+      {
+        test: /\.less$/,
+        // 因为这个插件需要干涉模块转换的内容，所以需要使用它对应的 loader
+        use: [
+          'style-loader',
           {
             loader: 'css-loader',
             options: {
               modules: true
             }
           },
-          'postcss-loader'
+          'less-loader'
         ]
-      },
-      {
-        test: /\.less$/,
-        // 因为这个插件需要干涉模块转换的内容，所以需要使用它对应的 loader
-        use: ['style-loader', 'css-loader', 'less-loader']
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
